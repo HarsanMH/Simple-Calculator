@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>CALCULATOR</title>
+    
+  <style>
+    body {
+      background: hwb(225 18% 2%);
+      color: white;
+      border: 3px double lightblue;
+    }
+    #bodyPart {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-top: 5px;
+      margin-left: 40px;
+    }
+    .parts {
+      width: 280px;
+      height: 150px;
+      background: hwb(0 41% 59%);
+      border: 3px outset white;
+      color: white;
+      text-shadow: 0 3px 0 black;
+      box-shadow: 0 4px 0 black;
+      position: relative;
+    }
+    .textHolder {
+      position: relative;
+      color: hwb(0 44% 56%);
+      background: hwb(0 10% 90%);
+      margin-top: 15px;
+      margin-left: 14px;
+      width: 200px;
+      height: 60px;
+      font-size: 15px;
+      border: 2px inset hwb(0 30% 70%);
+      bottom: 50px;
+    }
+    .textHasil {
+      height: 30px;
+      width: 201px;;
+      color: hwb(0 44% 56%); 
+      font-size: 15px;
+      margin-top: -48px;
+      margin-left: 14px;
+      background: hwb(0 10% 90%);
+      border: 2px inset hwb(0 30% 70%);
+    }
+    .delete {
+      position: relative;
+      width: 50px;
+      height: 40px;
+      box-sizing: border-box;
+      font-size: 20px;
+      background: hwb(0 33% 67%);
+      border-radius: 2px;
+      user-select: none;
+      border: 2px outset hwb(0 13% 87%);
+      box-shadow: 0 2px 0 lab(0% 0 0);
+      color: white;
+      margin-left: 220px;
+      top: 60px;
+    }
+    .partsBottom {
+      height: 360px;
+      margin-left: 40px;
+    }
+    .text1 {
+      font-size: 10px;
+      margin-left: 40px;
+    }
+    #controls {
+      margin-top: 20px;
+      margin-left: 13px
+    }
+    .row {
+      align-items: center;
+      gap: 3px;
+      margin-top: 5px
+    }
+    .control {
+      width: 60px;
+      height: 60px;
+      box-sizing: border-box;
+      font-size: 20px;
+      background: hwb(0 33% 67%);
+      border-radius: 2px;
+      user-select: none;
+      border: 2px outset hwb(0 13% 87%);
+      box-shadow: 0 2px 0 lab(0% 0 0);
+      color: white;
+    }
+    .control:active {
+      transform: scale(0.95);
+      transition: 0.1s;
+      background: hwb(0 16% 84%);
+    }
+    .delete:active {
+      transform: scale(0.95);
+      transition: 0.1s;
+      background: hwb(0 16% 84%);
+    }
+    .green {
+      background: hwb(120 15% 35%);
+      border: 2px outset hwb(122 3% 76%);
+      box-shadow: 0 2px 0 hwb(124 0% 89%);
+    }
+    .operasi {
+      background: hwb(0 46% 54%);
+      border: 2px outset hwb(0 21% 79%);
+      box-shadow: 0 2px 0 hwb(0 9% 91%);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="bodyPart">
+    <h1 class="parts">-Simple Calculator-
+      <button 
+        class="delete" 
+        onclick="del('delete')">del
+      </button>
+      <div class="textHolder" id="isi">Example: 1+1</div>
+      <div class="textHasil" id="hasil"> = </div>
+    </h1>
+  </div>
+  <div class="parts partsBottom">
+    <div id="controls">
+      <div class="row">
+        <button class="control operasi" onclick="input('(')">(</button>
+        <button class="control operasi" onclick="input(')')">)</button>
+        <button class="control operasi" onclick="input('%')">%</button>
+        <button class="control operasi" onclick="input('÷')">÷</button>
+      </div>
+      <div class="row">
+        <button class="control" onclick="input(1)">1</button>
+        <button class="control" onclick="input(2)">2</button>
+        <button class="control" onclick="input(3)">3</button>
+        <button class="control operasi" onclick="input('×')">×</button>
+      </div>
+      <div class="row">
+        <button class="control" onclick="input(4)">4</button>
+        <button class="control" onclick="input(5)">5</button>
+        <button class="control" onclick="input(6)">6</button>
+        <button class="control operasi" onclick="input('-')">-</button>
+      </div>
+      <div class="row">
+        <button class="control" onclick="input(7)">7</button>
+        <button class="control" onclick="input(8)">8</button>
+        <button class="control" onclick="input(9)">9</button>
+        <button class="control operasi" onclick="input('+')">+</button>
+      </div>
+      <div class="row">
+        <button class="control" onclick="input('.')">.</button>
+        <button class="control" onclick="input(0)">0</button>
+        <button class="control" onclick="input('.')">.</button>
+        <button class="control green" id="output" onclick="hitung()">=</button>
+      </div>
+    </div>
+  </div>
+  <text class="text1">Made By Harsan</text>
+  
+  <script>
+    let isi = document.getElementById("isi");
+    let output = document.getElementById("hasil");
+    let operasi = ["+", "-", "×", "÷"]
+    let hasil = "";
+    function input(object) {
+      hasil = hasil+object
+      isi.textContent = hasil;
+    }
+    function hitung() {
+      let hasilAkhir = hasil
+        .replaceAll("×", "*")
+        .replaceAll("÷", "/")
+      try {
+        let hitungan = eval(hasilAkhir)
+        output.textContent = hitungan;
+      } catch (error) {
+        output.textContent = "ERROR!";
+      }
+    }
+    function del() {
+      hasil = hasil.slice(0, -1);
+      isi.textContent = hasil;
+    }
+  </script>
+  
+</body>
+  
+</html>
