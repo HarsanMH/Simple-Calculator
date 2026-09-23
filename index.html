@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CALCULATOR</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+    }
+
+    body {
+      background: #345bd1;
+      color: white;
+      border: 3px double lightblue;
+      font-family: Arial, sans-serif;
+      padding: 12px;
+    }
+
+    #bodyPart {
+      width: 100%;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .parts {
+      width: 100%;
+      background: #696969;
+      border: 3px outset white;
+      color: white;
+      text-shadow: 0 2px 0 black;
+      box-shadow: 0 4px 0 black;
+      padding: 12px;
+      position: relative;
+    }
+
+    .parts h1 {
+      margin: 0 0 12px;
+      font-size: clamp(22px, 7vw, 32px);
+      line-height: 1.1;
+      text-align: center;
+    }
+
+    .textHolder,
+    .textHasil {
+      width: 100%;
+      overflow-wrap: anywhere;
+      overflow: hidden;
+      text-align: right;
+      padding: 8px;
+      color: #f0f0f0;
+      background: #1a1a1a;
+      border: 2px inset #4d4d4d;
+    }
+
+    .textHolder {
+      min-height: 58px;
+      font-size: clamp(18px, 5vw, 26px);
+      margin: 0 0 8px;
+    }
+
+    .textHasil {
+      min-height: 34px;
+      font-size: clamp(14px, 4vw, 18px);
+      margin: 0;
+    }
+
+    .delete {
+      display: block;
+      width: 64px;
+      min-height: 40px;
+      margin: 10px 0 10px auto;
+      font-size: 18px;
+      background: #545454;
+      border-radius: 2px;
+      user-select: none;
+      border: 2px outset #212121;
+      box-shadow: 0 2px 0 #000;
+      color: white;
+    }
+
+    .partsBottom {
+      height: auto;
+      margin: 14px auto 0;
+      padding: 12px;
+    }
+
+    #controls {
+      width: 100%;
+      margin: 0;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .control {
+      width: 100%;
+      min-width: 0;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      padding: 0;
+      font-size: clamp(18px, 6vw, 28px);
+      background: #545454;
+      border-radius: 2px;
+      user-select: none;
+      border: 2px outset #212121;
+      box-shadow: 0 2px 0 #000;
+      color: white;
+    }
+
+    .control:active,
+    .delete:active {
+      transform: scale(0.95);
+      transition: 0.1s;
+      background: #292929;
+    }
+
+    .green {
+      background: #26933b;
+      border: 2px outset #075713;
+      box-shadow: 0 2px 0 #031d08;
+    }
+
+    .operasi {
+      background: #757575;
+      border: 2px outset #363636;
+      box-shadow: 0 2px 0 #171717;
+    }
+
+    .text1 {
+      display: block;
+      width: 100%;
+      max-width: 420px;
+      margin: 10px auto 0;
+      font-size: 11px;
+    }
+
+    @media (min-width: 600px) {
+      body {
+        padding: 24px;
+      }
+
+      #bodyPart,
+      .text1 {
+        max-width: 440px;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+  <div id="bodyPart">
+    <div class="parts">
+      <h1>-Simple Calculator-</h1>
+      <button class="delete" onclick="del()">del</button>
+      <div class="textHolder" id="isi">1 + 1</div>
+      <div class="textHasil" id="hasil">Hasil =</div>
+    </div>
+  </div>
+  <div class="parts partsBottom">
+    <div id="controls">
+      <div class="row">
+        <button class="control operasi" onclick="input('(')">(</button>
+        <button class="control operasi" onclick="input(')')">)</button>
+        <button class="control operasi" onclick="input('%')">%</button>
+        <button class="control operasi" onclick="input('÷')">÷</button>
+      </div>
+      <div class="row">
+        <button class="control" onclick="input(1)">1</button>
+        <button class="control" onclick="input(2)">2</button>
+        <button class="control" onclick="input(3)">3</button>
+        <button class="control operasi" onclick="input('×')">×</button>
+      </div>
+      <div class="row">
+        <button class="control" onclick="input(4)">4</button>
+        <button class="control" onclick="input(5)">5</button>
+        <button class="control" onclick="input(6)">6</button>
+        <button class="control operasi" onclick="input('-')">-</button>
+      </div>
+      <div class="row">
+        <button class="control" onclick="input(7)">7</button>
+        <button class="control" onclick="input(8)">8</button>
+        <button class="control" onclick="input(9)">9</button>
+        <button class="control operasi" onclick="input('+')">+</button>
+      </div>
+      <div class="row">
+        <button class="control" onclick="input('.')">.</button>
+        <button class="control" onclick="input(0)">0</button>
+        <button class="control" onclick="input('.')">.</button>
+        <button class="control green" id="output" onclick="hitung()">=</button>
+      </div>
+    </div>
+  </div>
+  <text class="text1">Made By Harsan</text>
+  
+  <script>
+    alert("JavaScript aktif!");
+
+    var isi = document.getElementById("isi");
+    var output = document.getElementById("hasil");
+    var hasil = "";
+
+    function input(value) {
+      hasil = hasil + value;
+      isi.textContent = hasil;
+    }
+
+    function hitung() {
+      var hasilAkhir = hasil
+        .replace(/×/g, "*")
+        .replace(/÷/g, "/")
+        .replace(/%/g, "/100");
+
+      try {
+        if (hasilAkhir.trim() === "") {
+          output.textContent = "ERROR!";
+          return;
+        }
+
+        var hitungan = Function("return (" + hasilAkhir + ")")();
+        output.textContent = "Hasil = " + hitungan;
+      } catch (error) {
+        output.textContent = "ERROR!";
+      }
+    }
+
+    function del() {
+      hasil = hasil.slice(0, -1);
+      isi.textContent = hasil;
+    }
+  </script>
+  
+</body>
+  
+</html>
